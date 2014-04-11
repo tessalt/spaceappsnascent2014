@@ -1,0 +1,11 @@
+{
+  "name": "SpaceApps",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "4.0.0",
+    "socket.io": "~0.9.16"
+  }
+}
