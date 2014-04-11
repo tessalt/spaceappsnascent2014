@@ -6,6 +6,8 @@
   },
   "dependencies": {
     "express": "4.0.0",
-    "socket.io": "~0.9.16"
+    "socket.io": "~0.9.16",
+    "mongodb": "*",
+    "mongoose": "~3.8.8"
   }
 }
