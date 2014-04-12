@@ -2,9 +2,9 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var bodyParser = require('body-parser');
-var mongo = require('mongo');
 var mongoose = require('mongoose');
 var SensorKitService = require('./services/sensorKit').SensorKitService;
+var MeasurementService = require('./services/measurement').MeasurementService;
 
 var app = express();
 
@@ -19,7 +19,7 @@ var sensorKitSchema = new mongoose.Schema({
   location: String
 });
 
-var readingSchema = new mongoose.Schema({
+var measurementSchema = new mongoose.Schema({
   timestamp: Date,
   temp: Number,
   humidity: Number,
@@ -29,7 +29,11 @@ var readingSchema = new mongoose.Schema({
 
 var SensorKit = mongoose.model('SensorKit', sensorKitSchema);
 
+var Measurement = mongoose.model('Measurement', measurementSchema);
+
 var sensorKitService = new SensorKitService(SensorKit);
+
+var measurementService = new MeasurementService(Measurement);
 
 app.get('/', function(req, res){
   res.sendfile('index.html');
@@ -75,40 +79,13 @@ app.put('/sensorkits/:id', function(req, res){
   });
 });
 
-app.post('/sensorkits/:id/readings', function(req, res){
-
+app.post('/sensorkits/:id/measurement', function(req, res){
+  measurementService.new(req.params.id, req.body, function(response){
+    res.send(response);
+  });
 });
 
-app.get('/sensorkits/:id/:time', function(req, res){
-  /*
-  {
-    "sensor": "1",
-    "temp": "33",
-    "humidity": "55",
-    "pressure": "101"
-  }
-  */
-});
-
-app.get('/sensorkits/:time', function(req, res){
-  /*
-  [
-    {
-      "id": "1",
-      "temp": "33",
-      "humidity": "55",
-      "pressure": "101"
-    },
-    {
-      "id": "2",
-      "temp": "34",
-      "humidity": "56",
-      "pressure": "101.2"
-    }
-  ]
-  */
-});
 
 var server = app.listen(3000,  function() {
-  console.dir(JSON.stringify(server.address()));
+  console.dir(server.address().port);
 });
