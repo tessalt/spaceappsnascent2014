@@ -3,7 +3,7 @@ var MeasurementService = function(measurementModel) {
 }
 
 MeasurementService.prototype.index = function(id, callback) {
-  this.measurementModel.find(function(error, results){
+  this.measurementModel.find({ sensorId: id }, function(error, results){
     if (error) {
       callback(error);
     } else {

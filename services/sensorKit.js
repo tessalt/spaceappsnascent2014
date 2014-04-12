@@ -13,7 +13,7 @@ SensorKitService.prototype.index = function(callback) {
 };
 
 SensorKitService.prototype.new = function(name, location, callback) {
-  if (name.length > 0 && location.length > 0) {
+  if (typeof name !== "undefined" && typeof location !== "undefined") {
     var sk = new this.sensorKitModel({
       name: name,
       location: location
