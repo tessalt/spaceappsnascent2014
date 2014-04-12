@@ -13,6 +13,11 @@ MeasurementService.prototype.index = function(id, callback) {
 }
 
 MeasurementService.prototype.new = function(id, data, callback) {
+  for (var prop in data) {
+    if (typeof prop === 'undefined') {
+      callback(prop + ' is undefined');
+    }
+  }
   var measurement = new this.measurementModel({
     sensorId: id,
     temperature: data.temperature,
@@ -27,6 +32,16 @@ MeasurementService.prototype.new = function(id, data, callback) {
       callback('success');
     }
   });
-};
+}
+
+MeasurementService.prototype.destroy = function(id, callback) {
+  this.measurementModel.findById(id).remove(function(error){
+    if (error) {
+      callback(error);
+    } else {
+      callback('deleted');
+    }
+  });
+}
 
 exports.MeasurementService = MeasurementService;

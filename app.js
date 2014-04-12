@@ -95,6 +95,13 @@ app.post('/sensorkits/:id/measurement', function(req, res){
   });
 });
 
+// measurement#destroy
+
+app.delete('/sensorkits/:id/measurement/:mid', function(req, res){
+  measurementService.destroy(req.params.mid, function(response){
+    res.send(response);
+  });
+});
 
 var server = app.listen(3000,  function() {
   console.dir(server.address().port);
