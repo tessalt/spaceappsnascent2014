@@ -3,7 +3,7 @@ var MeasurementService = function(measurementModel) {
 }
 
 MeasurementService.prototype.all = function(callback) {
-  this.measurementModel.find(function(error, data){
+  this.measurementModel.find().sort('timestamp -1').exec(function(error, data){
     if (error) {
       callback(error);
     } else {
