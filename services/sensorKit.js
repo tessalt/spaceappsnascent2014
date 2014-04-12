@@ -12,5 +12,19 @@ SensorKitService.prototype.index = function(callback) {
   });
 };
 
+SensorKitService.prototype.new = function(id, location, callback) {
+  var sk = new this.sensorKitModel({
+    id: id,
+    location: location
+  });
+  sk.save(function(error){
+    if (error) {
+      callback(error);
+    } else {
+      callback('success');
+    }
+  });
+};
+
 exports.SensorKitService = SensorKitService;
 
