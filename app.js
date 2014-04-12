@@ -81,13 +81,13 @@ app.get('/sensorkits/:id?/measurements', function(req, res){
   });
 });
 
-app.post('/sensorkits/:id/measurement', function(req, res){
+app.post('/sensorkits/:id/measurements', function(req, res){
   measurementService.new(req.params.id, req.body, function(response){
     res.send(response);
   });
 });
 
-app.delete('/sensorkits/:id/measurement/:mid', function(req, res){
+app.delete('/sensorkits/:id/measurements/:mid', function(req, res){
   measurementService.destroy(req.params.mid, function(response){
     res.send(response);
   });

@@ -22,7 +22,7 @@ SensorKitService.prototype.new = function(name, location, callback) {
       if (error) {
         callback(error);
       } else {
-        callback('success');
+        callback(sk.id);
       }
     });
   } else {
