@@ -39,15 +39,11 @@ app.get('/', function(req, res){
   res.sendfile('index.html');
 });
 
-// sensorkits#index
-
 app.get('/sensorkits', function(req, res){
   sensorKitService.index(function(response){
     res.json(response);
   });
 });
-
-// sensorkits#new
 
 app.post('/sensorkits', function(req, res){
   sensorKitService.new(req.body.name, req.body.location, function(response){
@@ -55,15 +51,17 @@ app.post('/sensorkits', function(req, res){
   });
 });
 
-// sensorkits#show
-
 app.get('/sensorkits/:id', function(req, res){
-  sensorKitService.show(req.params.id, function(response){
-    res.json(response);
-  });
+  if (req.params.id !== 'measurements') {
+    sensorKitService.show(req.params.id, function(response){
+      res.json(response);
+    });
+  } else {
+    measurementService.all(function(response){
+      res.json(response);
+    });
+  }
 });
-
-// sensorkit#destroy
 
 app.delete('/sensorkits/:id', function(req, res){
   sensorKitService.destroy(req.params.id, function(response){
@@ -71,21 +69,11 @@ app.delete('/sensorkits/:id', function(req, res){
   });
 });
 
-// sensorkit#update
-
 app.put('/sensorkits/:id', function(req, res){
   sensorKitService.update(req.params.id, req.body.name, req.body.location, function(response){
     res.send(response);
   });
 });
-
-app.get('/measurements', function(req, res){
-  measurementService.all(function(response){
-    res.json(response);
-  });
-});
-
-// measurement#index
 
 app.get('/sensorkits/:id?/measurements', function(req, res){
   measurementService.index(req.params.id, req.query, function(response){
@@ -93,15 +81,11 @@ app.get('/sensorkits/:id?/measurements', function(req, res){
   });
 });
 
-// measurement#new
-
 app.post('/sensorkits/:id/measurement', function(req, res){
   measurementService.new(req.params.id, req.body, function(response){
     res.send(response);
   });
 });
-
-// measurement#destroy
 
 app.delete('/sensorkits/:id/measurement/:mid', function(req, res){
   measurementService.destroy(req.params.mid, function(response){
