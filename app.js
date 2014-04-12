@@ -20,11 +20,11 @@ var sensorKitSchema = new mongoose.Schema({
 });
 
 var measurementSchema = new mongoose.Schema({
+  sensorId: [mongoose.Schema.Types.ObjectId],
   timestamp: Date,
-  temp: Number,
+  temperature: Number,
   humidity: Number,
-  pressure: Number,
-  sensorId: Number
+  pressure: Number
 });
 
 var SensorKit = mongoose.model('SensorKit', sensorKitSchema);
@@ -79,12 +79,19 @@ app.put('/sensorkits/:id', function(req, res){
   });
 });
 
+// measurement#new
+
 app.post('/sensorkits/:id/measurement', function(req, res){
   measurementService.new(req.params.id, req.body, function(response){
     res.send(response);
   });
 });
 
+app.get('/sensorkits/:id/measurements', function(req, res){
+  measurementService.index(req.params.id, function(response){
+    res.json(response);
+  });
+});
 
 var server = app.listen(3000,  function() {
   console.dir(server.address().port);

@@ -2,6 +2,16 @@ var MeasurementService = function(measurementModel) {
   this.measurementModel = measurementModel;
 }
 
+MeasurementService.prototype.index = function(id, callback) {
+  this.measurementModel.find(function(error, results){
+    if (error) {
+      callback(error);
+    } else {
+      callback(results);
+    }
+  });
+}
+
 MeasurementService.prototype.new = function(id, data, callback) {
   var measurement = new this.measurementModel({
     sensorId: id,
@@ -16,7 +26,7 @@ MeasurementService.prototype.new = function(id, data, callback) {
     } else {
       callback('success');
     }
-  })
+  });
 };
 
 exports.MeasurementService = MeasurementService;
