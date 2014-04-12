@@ -16,15 +16,15 @@ mongoose.connect('mongodb://localhost:27017/spaceapps');
 
 var sensorKitSchema = new mongoose.Schema({
   name: String,
-  location: String
+  location: { type: String, required: true }
 });
 
 var measurementSchema = new mongoose.Schema({
   sensorId: [mongoose.Schema.Types.ObjectId],
-  timestamp: Date,
-  temperature: Number,
-  humidity: Number,
-  pressure: Number
+  timestamp: { type: Date, default: Date.now },
+  temperature: { type: Number, required: true },
+  humidity: { type: Number, required: true },
+  pressure: { type: Number, required: true }
 });
 
 var SensorKit = mongoose.model('SensorKit', sensorKitSchema);
