@@ -79,6 +79,14 @@ app.put('/sensorkits/:id', function(req, res){
   });
 });
 
+// measurement#index
+
+app.get('/sensorkits/:id/measurements', function(req, res){
+  measurementService.index(req.params.id, function(response){
+    res.json(response);
+  });
+});
+
 // measurement#new
 
 app.post('/sensorkits/:id/measurement', function(req, res){
@@ -87,11 +95,6 @@ app.post('/sensorkits/:id/measurement', function(req, res){
   });
 });
 
-app.get('/sensorkits/:id/measurements', function(req, res){
-  measurementService.index(req.params.id, function(response){
-    res.json(response);
-  });
-});
 
 var server = app.listen(3000,  function() {
   console.dir(server.address().port);
