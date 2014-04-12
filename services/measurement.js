@@ -4,7 +4,9 @@ var MeasurementService = function(measurementModel) {
 
 MeasurementService.prototype.index = function(id, query, callback) {
   if (query.from) {
-    this.measurementModel.find({ timestamp: { $gte: query.from, $lt: query.to } }, function(error, results){
+    var startDate = new Date(query.from);
+    var endDate = new Date(query.to);
+    this.measurementModel.find({ timestamp: { $gte: startDate, $lt: endDate } }, function(error, results){
       console.log(query);
       if (error) {
         callback(error);
