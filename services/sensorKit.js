@@ -13,17 +13,21 @@ SensorKitService.prototype.index = function(callback) {
 };
 
 SensorKitService.prototype.new = function(name, location, callback) {
-  var sk = new this.sensorKitModel({
-    name: name,
-    location: location
-  });
-  sk.save(function(error){
-    if (error) {
-      callback(error);
-    } else {
-      callback('success');
-    }
-  });
+  if (name.length > 0 && location.length > 0) {
+    var sk = new this.sensorKitModel({
+      name: name,
+      location: location
+    });
+    sk.save(function(error){
+      if (error) {
+        callback(error);
+      } else {
+        callback('success');
+      }
+    });
+  } else {
+    callback('include name and location');
+  }
 };
 
 SensorKitService.prototype.show = function(id, callback) {
