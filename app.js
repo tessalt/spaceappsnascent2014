@@ -82,7 +82,7 @@ app.put('/sensorkits/:id', function(req, res){
 // measurement#index
 
 app.get('/sensorkits/:id/measurements', function(req, res){
-  measurementService.index(req.params.id, function(response){
+  measurementService.index(req.params.id, req.query, function(response){
     res.json(response);
   });
 });

@@ -2,14 +2,26 @@ var MeasurementService = function(measurementModel) {
   this.measurementModel = measurementModel;
 }
 
-MeasurementService.prototype.index = function(id, callback) {
-  this.measurementModel.find({ sensorId: id }, function(error, results){
-    if (error) {
-      callback(error);
-    } else {
-      callback(results);
-    }
-  });
+MeasurementService.prototype.index = function(id, query, callback) {
+  if (query.from) {
+    this.measurementModel.find({ timestamp: { $gte: query.from, $lt: query.to } }, function(error, results){
+      console.log(query);
+      if (error) {
+        callback(error);
+      } else {
+        callback(results);
+      }
+    });
+  } else {
+    this.measurementModel.find({ sensorId: id }, function(error, results){
+      console.log(query);
+      if (error) {
+        callback(error);
+      } else {
+        callback(results);
+      }
+    });
+  }
 }
 
 MeasurementService.prototype.new = function(id, data, callback) {
