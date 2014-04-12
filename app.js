@@ -51,21 +51,9 @@ app.post('/sensorkits', function(req, res){
   });
 });
 
-app.get('/sensorkits/:id', function(req, res){
-  if (req.params.id !== 'measurements') {
-    sensorKitService.show(req.params.id, function(response){
-      res.json(response);
-    });
-  } else {
-    measurementService.all(function(response){
-      res.json(response);
-    });
-  }
-});
-
-app.delete('/sensorkits/:id', function(req, res){
-  sensorKitService.destroy(req.params.id, function(response){
-    res.send(response);
+app.get(/^\/sensorkits\/(\d+\w+)?$/, function(req, res){
+  sensorKitService.show(req.params[0], function(response){
+    res.json(response);
   });
 });
 
@@ -75,7 +63,19 @@ app.put('/sensorkits/:id', function(req, res){
   });
 });
 
-app.get('/sensorkits/:id?/measurements', function(req, res){
+app.delete('/sensorkits/:id', function(req, res){
+  sensorKitService.destroy(req.params.id, function(response){
+    res.send(response);
+  });
+});
+
+app.get('/sensorkits/measurements', function(req, res){
+  measurementService.index(null, req.query, function(response){
+    res.json(response);
+  });
+});
+
+app.get('/sensorkits/:id/measurements', function(req, res){
   measurementService.index(req.params.id, req.query, function(response){
     res.json(response);
   });
