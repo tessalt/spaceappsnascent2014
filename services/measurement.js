@@ -2,11 +2,21 @@ var MeasurementService = function(measurementModel) {
   this.measurementModel = measurementModel;
 }
 
+MeasurementService.prototype.all = function(callback) {
+  this.measurementModel.find(function(error, data){
+    if (error) {
+      callback(error);
+    } else {
+      callback(data);
+    }
+  });
+}
+
 MeasurementService.prototype.index = function(id, query, callback) {
   if (query.from) {
     var startDate = new Date(query.from);
     var endDate = new Date(query.to);
-    this.measurementModel.find({ timestamp: { $gte: startDate, $lt: endDate } }, function(error, results){
+    this.measurementModel.find({sensorId: id, timestamp: { $gte: startDate, $lt: endDate } }, function(error, results){
       console.log(query);
       if (error) {
         callback(error);

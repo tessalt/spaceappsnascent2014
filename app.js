@@ -79,9 +79,15 @@ app.put('/sensorkits/:id', function(req, res){
   });
 });
 
+app.get('/measurements', function(req, res){
+  measurementService.all(function(response){
+    res.json(response);
+  });
+});
+
 // measurement#index
 
-app.get('/sensorkits/:id/measurements', function(req, res){
+app.get('/sensorkits/:id?/measurements', function(req, res){
   measurementService.index(req.params.id, req.query, function(response){
     res.json(response);
   });
