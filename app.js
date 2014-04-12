@@ -104,5 +104,5 @@ app.delete('/sensorkits/:id/measurement/:mid', function(req, res){
 });
 
 var server = app.listen(3000,  function() {
-  console.dir(server.address().port);
+  console.dir("server listening on port " + server.address().port);
 });
