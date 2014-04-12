@@ -85,6 +85,13 @@ app.post('/sensorkits/:id/measurement', function(req, res){
   });
 });
 
+app.get('/hello/:temp/:hum', function(req, res){
+  measurementService.new(req.params.id, req.body, function(response){
+    console.log('TEMP:' + req.params['temp'] + '\nHUM:' + req.params['hum']);
+    
+  });
+});
+
 
 var server = app.listen(3000,  function() {
   console.dir(server.address().port);
