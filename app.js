@@ -75,6 +75,10 @@ app.put('/sensorkits/:id', function(req, res){
   });
 });
 
+app.post('/sensorkits/:id/readings', function(req, res){
+
+});
+
 app.get('/sensorkits/:id/:time', function(req, res){
   /*
   {
