@@ -12,9 +12,9 @@ SensorKitService.prototype.index = function(callback) {
   });
 };
 
-SensorKitService.prototype.new = function(id, location, callback) {
+SensorKitService.prototype.new = function(name, location, callback) {
   var sk = new this.sensorKitModel({
-    id: id,
+    name: name,
     location: location
   });
   sk.save(function(error){
@@ -22,6 +22,36 @@ SensorKitService.prototype.new = function(id, location, callback) {
       callback(error);
     } else {
       callback('success');
+    }
+  });
+};
+
+SensorKitService.prototype.show = function(id, callback) {
+  this.sensorKitModel.findById(id, function(error, result){
+    if (error) {
+      callback(error);
+    } else {
+      callback(result);
+    }
+  });
+};
+
+SensorKitService.prototype.destroy = function(id, callback) {
+  this.sensorKitModel.findById(id).remove(function(error){
+    if (error) {
+      callback(error);
+    } else {
+      callback('deleted');
+    }
+  });
+};
+
+SensorKitService.prototype.update = function(id, name, location, callback) {
+  this.sensorKitModel.findByIdAndUpdate(id, {name: name, location: location}, function(error){
+    if (error) {
+      callback(error);
+    } else {
+      callback('updated');
     }
   });
 };

@@ -15,7 +15,7 @@ app.use(bodyParser());
 mongoose.connect('mongodb://localhost:27017/spaceapps');
 
 var sensorKitSchema = new mongoose.Schema({
-  id: Number,
+  name: String,
   location: String
 });
 
@@ -34,7 +34,25 @@ app.get('/sensorkits', function(req, res){
 });
 
 app.post('/sensorkits', function(req, res){
-  sensorKitService.new(req.body.id, req.body.location, function(response){
+  sensorKitService.new(req.body.name, req.body.location, function(response){
+    res.send(response);
+  });
+});
+
+app.get('/sensorkits/:id', function(req, res){
+  sensorKitService.show(req.params.id, function(response){
+    res.json(response);
+  });
+});
+
+app.delete('/sensorkits/:id', function(req, res){
+  sensorKitService.destroy(req.params.id, function(response){
+    res.send(response);
+  });
+});
+
+app.put('/sensorkits/:id', function(req, res){
+  sensorKitService.update(req.params.id, req.body.name, req.body.location, function(response){
     res.send(response);
   });
 });
