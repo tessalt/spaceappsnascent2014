@@ -19,12 +19,20 @@ var sensorKitSchema = new mongoose.Schema({
   location: String
 });
 
+var readingSchema = new mongoose.Schema({
+  timestamp: Date,
+  temp: Number,
+  humidity: Number,
+  pressure: Number,
+  sensorId: Number
+});
+
 var SensorKit = mongoose.model('SensorKit', sensorKitSchema);
 
 var sensorKitService = new SensorKitService(SensorKit);
 
 app.get('/', function(req, res){
-  res.send('here be nodez');
+  res.sendfile('index.html');
 });
 
 // sensorkits#index
@@ -65,6 +73,36 @@ app.put('/sensorkits/:id', function(req, res){
   sensorKitService.update(req.params.id, req.body.name, req.body.location, function(response){
     res.send(response);
   });
+});
+
+app.get('/sensorkits/:id/:time', function(req, res){
+  /*
+  {
+    "sensor": "1",
+    "temp": "33",
+    "humidity": "55",
+    "pressure": "101"
+  }
+  */
+});
+
+app.get('/sensorkits/:time', function(req, res){
+  /*
+  [
+    {
+      "id": "1",
+      "temp": "33",
+      "humidity": "55",
+      "pressure": "101"
+    },
+    {
+      "id": "2",
+      "temp": "34",
+      "humidity": "56",
+      "pressure": "101.2"
+    }
+  ]
+  */
 });
 
 var server = app.listen(3000,  function() {
