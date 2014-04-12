@@ -27,11 +27,15 @@ app.get('/', function(req, res){
   res.send('here be nodez');
 });
 
+// sensorkits#index
+
 app.get('/sensorkits', function(req, res){
   sensorKitService.index(function(response){
     res.json(response);
   });
 });
+
+// sensorkits#new
 
 app.post('/sensorkits', function(req, res){
   sensorKitService.new(req.body.name, req.body.location, function(response){
@@ -39,17 +43,23 @@ app.post('/sensorkits', function(req, res){
   });
 });
 
+// sensorkits#show
+
 app.get('/sensorkits/:id', function(req, res){
   sensorKitService.show(req.params.id, function(response){
     res.json(response);
   });
 });
 
+// sensorkit#destroy
+
 app.delete('/sensorkits/:id', function(req, res){
   sensorKitService.destroy(req.params.id, function(response){
     res.send(response);
   });
 });
+
+// sensorkit#update
 
 app.put('/sensorkits/:id', function(req, res){
   sensorKitService.update(req.params.id, req.body.name, req.body.location, function(response){
