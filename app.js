@@ -78,7 +78,7 @@ app.get('/sensorkits/:id/measurements', function(req, res){
 });
 
 app.post('/sensorkits/:id/measurements', function(req, res){
-  measurementService.new(req.params.id, req.body, function(response){
+  measurementService.new(req.params.id, req.query, function(response){
     res.send(response);
   });
 });
