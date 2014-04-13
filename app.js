@@ -12,24 +12,17 @@ app.set('port', process.env.PORT || 3000);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser());
 
+var server = app.listen(3000,  function() {
+  console.dir("server listening on port " + server.address().port);
+});
+
+var io = require('socket.io').listen(server);
+
 mongoose.connect('mongodb://localhost:27017/spaceapps');
 
-var sensorKitSchema = new mongoose.Schema({
-  name: String,
-  location: { type: String, required: true }
-});
+var SensorKit = require('./schemas/sensorKit');
 
-var measurementSchema = new mongoose.Schema({
-  sensorId: [mongoose.Schema.Types.ObjectId],
-  timestamp: { type: Date, default: Date.now },
-  temperature: { type: Number, required: true },
-  humidity: { type: Number, required: true },
-  pressure: { type: Number, required: true }
-});
-
-var SensorKit = mongoose.model('SensorKit', sensorKitSchema);
-
-var Measurement = mongoose.model('Measurement', measurementSchema);
+var Measurement = require('./schemas/measurement');
 
 var sensorKitService = new SensorKitService(SensorKit);
 
@@ -46,6 +39,7 @@ app.get('/sensorkits', function(req, res){
 });
 
 app.post('/sensorkits', function(req, res){
+  io.sockets.emit('random', {thing: 'stuffs'});
   sensorKitService.new(req.body.name, req.body.location, function(response){
     res.send(response);
   });
@@ -91,8 +85,4 @@ app.delete('/sensorkits/:id/measurements/:mid', function(req, res){
   measurementService.destroy(req.params.mid, function(response){
     res.send(response);
   });
-});
-
-var server = app.listen(3000,  function() {
-  console.dir("server listening on port " + server.address().port);
 });
