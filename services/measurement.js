@@ -54,4 +54,4 @@ MeasurementService.prototype.destroy = function(id, callback) {
   });
 }
 
-exports.MeasurementService = MeasurementService;
+module.exports = MeasurementService;

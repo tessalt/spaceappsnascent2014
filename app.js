@@ -6,8 +6,8 @@ var express = require('express'),
     logfmt = require("logfmt");
 
 // custom modules
-var SensorKitService = require('./services/sensorKit').SensorKitService,
-    MeasurementService = require('./services/measurement').MeasurementService,
+var SensorKitService = require('./services/sensorKit'),
+    MeasurementService = require('./services/measurement'),
     SensorKit = require('./schemas/sensorKit'),
     Measurement = require('./schemas/measurement');
 
@@ -86,7 +86,7 @@ app.post('/sensorkits/:id/measurements', function(req, res){
 app.get('/hello/:temp/:hum', function(req, res){
   measurementService.new(req.params.id, req.body, function(response){
     console.log('TEMP:' + req.params['temp'] + '\nHUM:' + req.params['hum']);
-    
+
   });
 });
 

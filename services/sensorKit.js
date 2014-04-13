@@ -60,5 +60,5 @@ SensorKitService.prototype.update = function(id, name, location, callback) {
   });
 };
 
-exports.SensorKitService = SensorKitService;
+module.exports = SensorKitService;
 
