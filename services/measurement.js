@@ -2,38 +2,24 @@ var MeasurementService = function(measurementModel) {
   this.measurementModel = measurementModel;
 }
 
-MeasurementService.prototype.all = function(callback) {
-  this.measurementModel.find(function(error, data){
+MeasurementService.prototype.index = function(id, query, callback) {
+  var search = {};
+  if (id) {
+    search.sensorId = id;
+  }
+  if (query.from && query.to) {
+    search.timestamp = {
+      $gte: new Date(query.from),
+      $lt: new Date(query.to)
+    }
+  }
+  this.measurementModel.find(search).sort('timestamp -1').exec(function(error, data){
     if (error) {
       callback(error);
     } else {
       callback(data);
     }
   });
-}
-
-MeasurementService.prototype.index = function(id, query, callback) {
-  if (query.from) {
-    var startDate = new Date(query.from);
-    var endDate = new Date(query.to);
-    this.measurementModel.find({sensorId: id, timestamp: { $gte: startDate, $lt: endDate } }, function(error, results){
-      console.log(query);
-      if (error) {
-        callback(error);
-      } else {
-        callback(results);
-      }
-    });
-  } else {
-    this.measurementModel.find({ sensorId: id }, function(error, results){
-      console.log(query);
-      if (error) {
-        callback(error);
-      } else {
-        callback(results);
-      }
-    });
-  }
 }
 
 MeasurementService.prototype.new = function(id, data, callback) {

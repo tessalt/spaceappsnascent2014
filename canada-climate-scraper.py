@@ -2,8 +2,6 @@ from bs4 import BeautifulSoup
 import urllib2
 import json
 
-from pymongo import MongoClient
-
 
 url = 'http://climate.weather.gc.ca/climateData/hourlydata_e.html?timeframe=1&Prov=ONT&StationID=48549&hlyRange=2009-12-10|2014-04-11&Year=2014&Month=4&Day=11'
 
