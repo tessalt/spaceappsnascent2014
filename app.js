@@ -1,28 +1,30 @@
-var express = require('express');
-var http = require('http');
-var path = require('path');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var SensorKitService = require('./services/sensorKit').SensorKitService;
-var MeasurementService = require('./services/measurement').MeasurementService;
+// Dependencies
+var express = require('express'),
+    path = require('path'),
+    bodyParser = require('body-parser'),
+    mongoose = require('mongoose'),
+    logfmt = require("logfmt");
+
+// custom modules
+var SensorKitService = require('./services/sensorKit').SensorKitService,
+    MeasurementService = require('./services/measurement').MeasurementService,
+    SensorKit = require('./schemas/sensorKit'),
+    Measurement = require('./schemas/measurement');
 
 var app = express();
 
-app.set('port', process.env.PORT || 3000);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser());
+app.use(logfmt.requestLogger());
 
-var server = app.listen(3000,  function() {
+var port = Number(process.env.PORT || 3000);
+var server = app.listen(port,  function() {
   console.dir("server listening on port " + server.address().port);
 });
 
-var io = require('socket.io').listen(server);
-
 mongoose.connect('mongodb://localhost:27017/spaceapps');
 
-var SensorKit = require('./schemas/sensorKit');
-
-var Measurement = require('./schemas/measurement');
+var io = require('socket.io').listen(server);
 
 var sensorKitService = new SensorKitService(SensorKit);
 
