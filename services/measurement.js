@@ -33,7 +33,7 @@ MeasurementService.prototype.new = function(id, data, callback) {
     temperature: data.temperature,
     humidity: data.humidity,
     pressure: data.pressure,
-    timestamp: data.timestamp
+    timestamp: data.timestamp || Date.now()
   });
   measurement.save(function(error) {
     if (error) {
