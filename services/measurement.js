@@ -7,10 +7,10 @@ MeasurementService.prototype.index = function(id, query, callback) {
   if (id) {
     search.sensorId = id;
   }
-  if (query.from && query.to) {
+  if (query.from) {
     search.timestamp = {
       $gte: new Date(query.from),
-      $lt: new Date(query.to)
+      $lt: Date.now()
     }
   }
   this.measurementModel.find(search).sort('timestamp -1').exec(function(error, data){
@@ -30,10 +30,10 @@ MeasurementService.prototype.new = function(id, data, callback) {
   }
   var measurement = new this.measurementModel({
     sensorId: id,
-    temperature: data.temperature,
-    humidity: data.humidity,
-    pressure: data.pressure,
-    timestamp: data.timestamp || Date.now()
+    temperature: parseFloat(data['temperature']),
+    humidity: parseFloat(data['humidity']),
+    pressure: parseFloat(data['pressure']),
+    timestamp: Date.now()
   });
   measurement.save(function(error) {
     if (error) {

@@ -30,6 +30,13 @@ var sensorKitService = new SensorKitService(SensorKit);
 
 var measurementService = new MeasurementService(Measurement);
 
+app.all('/', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+ });
+
+
 app.get('/', function(req, res){
   res.sendfile('index.html');
 });
@@ -66,19 +73,23 @@ app.delete('/sensorkits/:id', function(req, res){
 });
 
 app.get('/sensorkits/measurements', function(req, res){
+
   measurementService.index(null, req.query, function(response){
     res.json(response);
   });
 });
 
 app.get('/sensorkits/:id/measurements', function(req, res){
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
   measurementService.index(req.params.id, req.query, function(response){
     res.json(response);
   });
 });
 
-app.post('/sensorkits/:id/measurements', function(req, res){
-  measurementService.new(req.params.id, req.query, function(response){
+app.post('/sensorkits/measurements/:temperature/:humidity/:pressure', function(req, res){
+  var id = '534884b1e81e2148612d03ec';
+  measurementService.new('534884b1e81e2148612d03ec', req.params, function(response){
     res.send(response);
   });
 });
