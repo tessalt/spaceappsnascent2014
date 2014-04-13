@@ -16,15 +16,15 @@ mongoose.connect('mongodb://localhost:27017/spaceapps');
 
 var sensorKitSchema = new mongoose.Schema({
   name: String,
-  location: String
+  location: { type: String, required: true }
 });
 
 var measurementSchema = new mongoose.Schema({
-  timestamp: Date,
-  temp: Number,
-  humidity: Number,
-  pressure: Number,
-  sensorId: Number
+  sensorId: [mongoose.Schema.Types.ObjectId],
+  timestamp: { type: Date, default: Date.now },
+  temperature: { type: Number, required: true },
+  humidity: { type: Number, required: true },
+  pressure: { type: Number, required: true }
 });
 
 var SensorKit = mongoose.model('SensorKit', sensorKitSchema);
@@ -79,6 +79,22 @@ app.put('/sensorkits/:id', function(req, res){
   });
 });
 
+app.get('/measurements', function(req, res){
+  measurementService.all(function(response){
+    res.json(response);
+  });
+});
+
+// measurement#index
+
+app.get('/sensorkits/:id?/measurements', function(req, res){
+  measurementService.index(req.params.id, req.query, function(response){
+    res.json(response);
+  });
+});
+
+// measurement#new
+
 app.post('/sensorkits/:id/measurement', function(req, res){
   measurementService.new(req.params.id, req.body, function(response){
     res.send(response);
@@ -91,8 +107,14 @@ app.get('/hello/:temp/:hum', function(req, res){
     
   });
 });
+// measurement#destroy
 
+app.delete('/sensorkits/:id/measurement/:mid', function(req, res){
+  measurementService.destroy(req.params.mid, function(response){
+    res.send(response);
+  });
+});
 
 var server = app.listen(3000,  function() {
-  console.dir(server.address().port);
+  console.dir("server listening on port " + server.address().port);
 });
